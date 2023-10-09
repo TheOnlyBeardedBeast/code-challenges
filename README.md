@@ -1,4 +1,4 @@
-# Challenges
+# CodeQuest
 
 Solutions from the continuous company event:
 
