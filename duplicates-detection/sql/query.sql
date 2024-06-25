@@ -1,7 +1,7 @@
-explain analyse
+-- explain analyse
 select * from "users" where 
 normalize_names("lastName", "address", "country") 
-= normalize_names('Müller', 'Weißenseestr. 50a Apt. 438', 'DE')
+= normalize_names('Mueller', 'Weissenseestraße 50a Apt438', 'DE')
 
 
 -- select

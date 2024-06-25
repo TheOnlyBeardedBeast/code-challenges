@@ -2,4 +2,4 @@ CREATE COLLATION ignore_accent_case (provider = icu, deterministic = false, loca
 
 SELECT 'Å' = 'A' COLLATE ignore_accent_case; -- true
 SELECT 'z' = 'Z' COLLATE ignore_accent_case; -- true
-SELECT 'u' = 'ue' COLLATE ignore_accent_case; -- false
+SELECT 'ü' = 'ue' COLLATE ignore_accent_case; -- false

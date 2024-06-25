@@ -12,6 +12,7 @@ CREATE OR REPLACE FUNCTION public.normalize_names(nameValue text, addressName te
  IMMUTABLE
 AS $function$
 DECLARE
+    -- ü = u = ue, a = ä = ae ...
     ngramCases ngram_cases_type[] = ARRAY[
         ('ue', 'ü', ARRAY['DE', 'AT', 'CH']),
         ('ae', 'ä', ARRAY['DE', 'AT', 'CH']),
@@ -44,6 +45,7 @@ BEGIN
     RETURN  unaccent(REGEXP_REPLACE(replacedValue || addressName, '[\s\.\/-]+', '', 'g'));
 END;
 $function$;
+
 
 CREATE INDEX normalized_lastName ON "users"
 (normalize_names("lastName", "address", "country"));
