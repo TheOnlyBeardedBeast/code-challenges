@@ -1,10 +1,14 @@
-CREATE EXTENSION UNACCENT;
+CREATE EXTENSION IF NOT EXISTS UNACCENT;
 
-CREATE TYPE NGRAM_CASES_TYPE AS (
-	TARGET VARCHAR(20),
-	REPLACEMENT VARCHAR(20),
-	ALLOWED_COUNTRIES TEXT []
+DO $$ BEGIN
+	CREATE TYPE NGRAM_CASES_TYPE AS (
+    	TARGET VARCHAR(20),
+        REPLACEMENT VARCHAR(20),
+        ALLOWED_COUNTRIES TEXT []
 );
+EXCEPTION
+	WHEN duplicate_object THEN null;
+END $$;
  
 CREATE OR REPLACE FUNCTION public.normalize_names(nameValue text, addressName text, country text)
  RETURNS text
@@ -40,7 +44,7 @@ BEGIN
        END IF;
     END LOOP;
 
-    addressName := REGEXP_REPLACE(unaccent(addressName), format('(%s)(?=\s|\d|\.)', street_string), '', 'gi');
+    addressName := lower(REGEXP_REPLACE(unaccent(addressName), format('(%s)(?=\s|\d|\.)', street_string), '', 'gi'));
 
     RETURN  unaccent(REGEXP_REPLACE(replacedValue || addressName, '[\s\.\/-]+', '', 'g'));
 END;
